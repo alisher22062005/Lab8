@@ -25,14 +25,17 @@ rect2.center=(random.randint(40,370),0)
 image3=pygame.image.load("coin.png")
 image3=pygame.transform.scale(image3,(50,50))
 rect3=image3.get_rect()
-rect3.center=(random.randint(40,370),0)
+rect3.center=(random.randint(150,370),0)
 
 #speed
 speed=5
 INC_SPEED = pygame.USEREVENT + 1
 pygame.time.set_timer(INC_SPEED, 1000)
 
-#sprites
+#font
+game_over_font = pygame.font.SysFont('coin.png', 60)
+game_over_cnt=pygame.font.SysFont("coin.png",60)
+
 
 
 
@@ -52,13 +55,14 @@ def move_player_car():
                rect.move_ip(5,0)
 def move_coin():
      rect3.move_ip(0,10)
-     rect3.top=0
-     rect3.center=(random.randint(30,370),0)
+     if (rect3.top>600):
+      rect3.top=0
+      #rect3.center=(random.randint(30,370),0)
 
               
    
 
-
+cnt=0
 while going==True:
     for event in pygame.event.get():
         if event.type == INC_SPEED:
@@ -68,19 +72,28 @@ while going==True:
 
     if rect.colliderect(rect2):
             screen.fill((255,0,0))
+            n=game_over_font.render("Game Over", True, (0,0,0))
+            c=game_over_cnt.render("Points: "+str(cnt),False,(0,0,0))
+            screen.blit(n, (80,250))
+            screen.blit(c,(200,60))
             pygame.display.update()
-            time.sleep(2)
+            time.sleep(4)
             pygame.quit()
-            time.sleep(5)
-            going=False
 
 
     move_player_car()
     move_enemy_car()
     move_coin()
+    if rect.colliderect(rect3):
+         rect3.top=0
+         screen.fill((255,0,0))
+         pygame.display.update()
+         cnt+=1
+
     screen.fill((255,255,255))
     screen.blit(image,rect)
     screen.blit(image2,rect2)
+    screen.blit(image3,rect3)
     #screen.blit(image2.rect2)
     pygame.display.update()
     FPS.tick(60)
