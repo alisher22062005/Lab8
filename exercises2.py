@@ -20,7 +20,13 @@ white=(255,255,255)
 black=(0,0,0)
 all_coloures=[red,blue,white,black]
 cnt_coloures=0
-Size=random.randint(0,10)
+
+x_curr=0
+y_curr=0
+x_prev=0
+y_prev=0
+
+eraser=0
 left_button_pressed=False
 
 while going==True:
@@ -41,6 +47,29 @@ while going==True:
                 cnt_coloures=3
             else:
                 cnt_coloures-=1
+
+      
+                
+    if event.type==pygame.MOUSEBUTTONDOWN and event.button!=1:
+        print("Hejenjen")
+        x_curr=event.pos[0]
+        y_curr=event.pos[1]
+        x_prev=event.pos[0]
+        y_prev=event.pos[1]
+        eraser=True
+
+    if event.type==pygame.MOUSEMOTION:
+        if eraser:
+            #pygame.draw.rect(screen,(255,0,0),(event.pos[0],event.pos[1],5,5))
+            x_curr=event.pos[0]
+            y_curr=event.pos[1]
+            pygame.draw.rect(screen,black,(x_prev,y_prev,x_curr-x_prev,y_curr-y_prev))
+
+    if event.type==pygame.MOUSEBUTTONUP and event.button!=1:
+        eraser=False
+    pygame.display.flip()
+    clock.tick(60)
+    
 
     if event.type==pygame.MOUSEBUTTONDOWN and event.button==1:
         print("hhh")
