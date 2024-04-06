@@ -14,7 +14,7 @@ screen.fill((255,255,255))
 #image_player_car
 image=pygame.image.load(r"C:\Users\acer-\OneDrive\Рабочий стол\Lab8\car.png")
 rect=image.get_rect()
-rect.center = (160, 520)
+rect.center=(300,500)
 
 #image_enemy_car
 image2=pygame.image.load("car2.png")
@@ -27,14 +27,19 @@ image3=pygame.transform.scale(image3,(50,50))
 rect3=image3.get_rect()
 rect3.center=(random.randint(150,370),0)
 
+#road
+image_road=pygame.image.load(r"C:\Users\acer-\OneDrive\Рабочий стол\Lab8\road.png")
+#image_road=pygame.transform.scale(image_road,(400,600))
+#road_rect=image_road.get_rect(center=(200,300))
+
 #speed
 speed=5
 INC_SPEED = pygame.USEREVENT + 1
 pygame.time.set_timer(INC_SPEED, 1000)
 
 #font
-game_over_font = pygame.font.SysFont('coin.png', 60)
-game_over_cnt=pygame.font.SysFont("coin.png",60)
+game_over_font = pygame.font.SysFont('output_GAME_OVER', 60)
+game_over_cnt=pygame.font.SysFont("number_of_points",60)
 
 
 def move_enemy_car():
@@ -67,8 +72,10 @@ while going==True:
               speed += 2
         if event.type==pygame.QUIT:
             going=False
-    
+
+
     #if car_player collide with enemy_car
+    screen.blit(image_road,(0,0))  
     if rect.colliderect(rect2):
             screen.fill((255,0,0))
             n=game_over_font.render("Game Over", True, (0,0,0))
@@ -85,11 +92,13 @@ while going==True:
     move_coin()
     if rect.colliderect(rect3):
          rect3.top=0
-         screen.fill((255,0,0))
+         screen.blit(image_road,(0,0))
+         #screen.fill((255,0,0))
          pygame.display.update()
          cnt+=1
 
-    screen.fill((255,255,255))
+    #screen.fill((255,255,255))
+    screen.blit(image_road,(0,0))  
     screen.blit(image,rect)
     screen.blit(image2,rect2)
     screen.blit(image3,rect3)
